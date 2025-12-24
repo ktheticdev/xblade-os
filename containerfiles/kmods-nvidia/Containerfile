@@ -1,0 +1,13 @@
+RUN \
+  --mount=type=bind,from=ghcr.io/ktheticdev/akmods-nvidia:cachyos-lto-43,src=/rpms,dst=/tmp/rpms,ro \
+  set -eux; \
+  echo "=== Installing prebuilt kernel modules ==="; \
+  echo "RPMs found:"; \
+  ls -lh /tmp/rpms/kmods; \
+  test -n "$(ls -A /tmp/rpms/kmods)"; \
+  dnf install -y \
+    --setopt=install_weak_deps=False \
+    --disablerepo="*" \
+    --enablerepo="fedora-multimedia" \
+    /tmp/rpms/kmods/kmod*nvidia*.rpm; \
+  echo "=== Common kmods install complete ==="

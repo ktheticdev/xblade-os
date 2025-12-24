@@ -22,6 +22,7 @@ modules:
     repos:
       files:
         - https://download.docker.com/linux/fedora/docker-ce.repo
+        - https://repo.secureblue.dev/secureblue.repo
       copr:
         - name: iucar/rstudio
           chroot: fedora-43-x86_64
@@ -33,6 +34,7 @@ modules:
         - containerd.io
         - docker-buildx-plugin
         - docker-compose-plugin
+        - trivalent
         - R
         - rstudio-desktop
         - https://github.com/2dust/v2rayN/releases/latest/download/v2rayN-linux-rhel-64.rpm
@@ -45,18 +47,15 @@ modules:
         - firefox
         - firefox-langpacks # also remove firefox dependency (not required for all packages, this is a special case)
         - cosign
-        
+
   - type: rpm-ostree
     repos:
       - https://negativo17.org/repos/fedora-multimedia.repo
 
-  - type: akmods
-    base: cachyos-lto
-    nvidia:
-      nvidia: proprietary
-    install:
-      - v4l2loopback
-      - nvidia
+  - type: containerfile
+    containerfiles:
+      - kmods-nvidia
+      - kmods-common
 
   - type: dnf
     install:
